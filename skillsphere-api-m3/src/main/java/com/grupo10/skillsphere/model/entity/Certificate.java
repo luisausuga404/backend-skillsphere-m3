@@ -31,6 +31,6 @@ public class Certificate {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.VECTOR)
+    @Column(columnDefinition = "vector")
     private float[] embedding;
 }

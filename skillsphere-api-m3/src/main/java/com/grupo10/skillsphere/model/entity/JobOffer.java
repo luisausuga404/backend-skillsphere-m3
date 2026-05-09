@@ -29,6 +29,6 @@ public class JobOffer {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.VECTOR)
+    @Column(columnDefinition = "vector")
     private float[] embedding;
 }
