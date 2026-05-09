@@ -30,5 +30,6 @@ public class Student {
     private LocalDateTime updatedAt;
 
     @Column(columnDefinition = "vector")
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.VECTOR)
     private float[] embedding;
 }

@@ -1,8 +1,8 @@
 -- Semilla de datos para 10 Certificados del usuario "momen totres"
 
 -- Primero creamos al usuario estudiante para poder referenciarlo
-INSERT INTO students (id, first_name, last_name, email, phone, location, profile_summary, embedding, created_at)
-VALUES (1001, 'momen', 'totres', 'momentotres@test.com', '+1234567890', 'Remoto', 'Usuario de prueba para el entregable del Momento 3', '[0.1, 0.1, 0.1]', NOW())
+INSERT INTO students (id, first_name, last_name, email, phone, birth_date, program, embedding, created_at)
+VALUES (1001, 'momen', 'totres', 'momentotres@test.com', '+1234567890', '2000-01-01', 'Desarrollo de Software', '[0.1, 0.1, 0.1]', NOW())
 ON CONFLICT DO NOTHING;
 
 -- Insertamos los certificados asociados a este usuario (student_id = 1001)
