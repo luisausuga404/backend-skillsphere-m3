@@ -43,9 +43,6 @@ public class JobOfferService {
             existing.setSchedule(jobOfferDetails.getSchedule());
             existing.setModality(jobOfferDetails.getModality());
             existing.setActive(jobOfferDetails.getActive());
-            if (jobOfferDetails.getEmbedding() != null) {
-                existing.setEmbedding(jobOfferDetails.getEmbedding());
-            }
             JobOffer updated = repository.save(existing);
             return convertToDTO(updated);
         }).orElseThrow(() -> new RuntimeException("Oferta laboral no encontrada con id: " + id));
@@ -66,7 +63,6 @@ public class JobOfferService {
         dto.setSchedule(entity.getSchedule());
         dto.setModality(entity.getModality());
         dto.setActive(entity.getActive());
-        dto.setEmbedding(entity.getEmbedding());
         return dto;
     }
 
@@ -80,7 +76,6 @@ public class JobOfferService {
         entity.setSchedule(dto.getSchedule());
         entity.setModality(dto.getModality());
         entity.setActive(dto.getActive());
-        entity.setEmbedding(dto.getEmbedding());
         return entity;
     }
 }

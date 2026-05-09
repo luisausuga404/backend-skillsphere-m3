@@ -52,9 +52,6 @@ public class CertificateService {
             if (certificateDetails.getInstitutionId() != null) {
                 existing.setInstitution(institutionRepository.getReferenceById(certificateDetails.getInstitutionId()));
             }
-            if (certificateDetails.getEmbedding() != null) {
-                existing.setEmbedding(certificateDetails.getEmbedding());
-            }
             Certificate updated = repository.save(existing);
             return convertToDTO(updated);
         }).orElseThrow(() -> new RuntimeException("Certificado no encontrado con id: " + id));
@@ -78,7 +75,6 @@ public class CertificateService {
         if (entity.getInstitution() != null) {
             dto.setInstitutionId(entity.getInstitution().getId());
         }
-        dto.setEmbedding(entity.getEmbedding());
         return dto;
     }
 
@@ -95,7 +91,6 @@ public class CertificateService {
         if (dto.getInstitutionId() != null) {
             entity.setInstitution(institutionRepository.getReferenceById(dto.getInstitutionId()));
         }
-        entity.setEmbedding(dto.getEmbedding());
         return entity;
     }
 }

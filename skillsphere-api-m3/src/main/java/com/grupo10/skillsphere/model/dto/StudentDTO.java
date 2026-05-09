@@ -13,5 +13,4 @@ public class StudentDTO {
     private String phone;
     private LocalDate birthDate;
     private String program;
-    private float[] embedding;
 }

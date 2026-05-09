@@ -6,7 +6,7 @@ Este documento es el **punto de entrada obligatorio** para cualquier agente de I
 **ESTADO:** Finalizamos la etapa de planificación y análisis. Tenemos claro el stack y los requisitos. El plan de implementación ha sido propuesto y el contexto general y específico ha sido configurado.
 **QUÉ SE DEBE HACER AL INICIAR LA PRÓXIMA SESIÓN:**
 1. **Configurar el proyecto base:** Crear o revisar los paquetes `dto`, `model`, `repository`, `service`, `controller` en `src/main/java/com/grupo10/skillsphere`.
-2. **Crear las Entidades Base:** Ej: `JobOffer`, `Certificate`, etc. Es importante añadir soporte/campos para **Embeddings** (arrays compatibles con `pgvector` en Supabase).
+2. **Crear las Entidades Base:** Ej: `JobOffer`, `Certificate`, etc. Es importante emplear `@Embeddable` para agrupar campos repetidos y mantener un diseño relacional limpio.
 3. **Crear los DTOs:** Crear `RequestDTO` y `ResponseDTO` para cada modelo. Esto es un requisito obligatorio del Momento 3.
 4. **Desarrollar Repositorios y Servicios:** Crear las interfaces que extienden `JpaRepository` y los servicios que manejan la lógica y el mapeo Entidad <-> DTO.
 5. **Desarrollar los Controladores:** Exponer endpoints REST **CRUD completos** (GET, POST, PUT, DELETE) que reciban y retornen únicamente DTOs.
@@ -27,4 +27,4 @@ Este documento es el **punto de entrada obligatorio** para cualquier agente de I
 ## 🎯 Requisitos Obligatorios del Momento 3
 1. **API REST Consumible:** Backend funciona como el *Source of Truth* (Contrato de Datos).
 2. **Uso de DTOs:** Obligatorio para separar la capa de base de datos de la de presentación.
-3. **Uso de Embeddings:** Integración con IA/búsqueda semántica usando `pgvector` u otra solución.
+3. **Uso de JPA Embeddables:** Agrupar campos reutilizables con `@Embeddable/@Embedded` sin crear tablas separadas.

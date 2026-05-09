@@ -38,9 +38,6 @@ public class StudentService {
             existing.setPhone(studentDetails.getPhone());
             existing.setBirthDate(studentDetails.getBirthDate());
             existing.setProgram(studentDetails.getProgram());
-            if (studentDetails.getEmbedding() != null) {
-                existing.setEmbedding(studentDetails.getEmbedding());
-            }
             Student updated = repository.save(existing);
             return convertToDTO(updated);
         }).orElseThrow(() -> new RuntimeException("Estudiante no encontrado con id: " + id));
@@ -59,7 +56,6 @@ public class StudentService {
         dto.setPhone(entity.getPhone());
         dto.setBirthDate(entity.getBirthDate());
         dto.setProgram(entity.getProgram());
-        dto.setEmbedding(entity.getEmbedding());
         return dto;
     }
 
@@ -72,7 +68,6 @@ public class StudentService {
         entity.setPhone(dto.getPhone());
         entity.setBirthDate(dto.getBirthDate());
         entity.setProgram(dto.getProgram());
-        entity.setEmbedding(dto.getEmbedding());
         return entity;
     }
 }

@@ -2,8 +2,6 @@ package com.grupo10.skillsphere.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,10 +21,10 @@ public class Institution {
     @OneToMany(mappedBy = "institution")
     private List<Certificate> certificates;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @Column(columnDefinition = "vector")
-    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.VECTOR)
-    private float[] embedding;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "createdAt", column = @Column(name = "created_at", updatable = false)),
+            @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at"))
+    })
+    private AuditInfo auditInfo = new AuditInfo();
 }

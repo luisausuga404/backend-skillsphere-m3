@@ -34,7 +34,5 @@ public class CertificateDTO {
     @JsonProperty("institution_id")
     private Long institutionId; // ID de la institución (relación, no la entidad completa)
 
-    private float[] embedding; // Vector semántico para búsquedas con IA
-
     // Nota: No incluye 'createdAt' ni relaciones completas para mantener la estructura simple y estándar
 }

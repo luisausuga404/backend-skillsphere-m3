@@ -1,72 +1,378 @@
-# Contexto General y Plan de Integración: SkillSphere (M1/M3)
+# SkillSphere - Contexto Técnico y Plan (Mayo 2026)
 
-## 📌 Objetivo Principal y Contexto del Semestre
-Nos encontramos en el **Momento 3** (entregable final del semestre). El trabajo realizado previamente en el Momento 1 y 2 en los respectivos repositorios sirve como base para este entregable.
+## 📌 Estado Actual del Proyecto
 
-El objetivo principal es tener una **API consumible** por las 3 materias, que respete los temas vistos en cada una, utilizando el backend como "Contrato" o estructura central de datos.
+**Fecha**: Mayo 9, 2026  
+**Versión**: 0.0.1-SNAPSHOT  
+**Etapa**: Desarrollo Local (H2) ✅ | Preparado para Supabase 🚀
 
-**Requisitos Específicos de Backend (Prioridad Actual):**
-- Crear una API consumible desarrollada en Java (Spring Boot) conectada a **Supabase**.
-- Implementar operaciones **CRUD** funcionales que actualicen la base de datos.
-- Es **obligatorio** el uso de **DTOs** para la transferencia de datos.
-- Se debe integrar el uso de **Embeddings**.
+### Objetivo Principal
 
-*Nota: Las guías detalladas de las materias de Frontend y Python se entregarán posteriormente, por lo que primero avanzaremos en tener el Backend funcional y consumible.*
+Desarrollar una **API REST funcional y consumible** por:
+- 📱 **Frontend (React)**: Debe consumir endpoints de `/api/*`
+- 🐍 **Backend Python**: Debe hacer requests a la API para obtener datos
+- ⚙️ **Microservicios**: Arquitectura escalable y modular
 
-## 🗂️ Arquitectura del Espacio de Trabajo (Monorepo Virtual)
-El usuario clonará y agrupará los 3 repositorios en una misma carpeta padre para facilitar la visibilidad y el trabajo conjunto en el IDE. La estructura final esperada será algo como:
+**Requisitos Cumplidos**:
+- ✅ API REST con operaciones CRUD
+- ✅ DTOs (Data Transfer Objects) en todas las entidades
+- ✅ JPA embeddables preparados (`AuditInfo`)
+- ✅ Documentación automática (Swagger/OpenAPI)
+- ✅ Arquitectura en capas (Controller → Service → Repository → Entity)
 
-```text
-Espacio_de_Trabajo/
- ├── skillsphere-api-m3/       # Backend (Java Spring Boot + Supabase)
- │   └── Repo: https://github.com/C13G0/skillsphere-api-m3.git
- ├── skillsphere_react/        # Frontend (React)
- │   └── Repo: https://github.com/C13G0/skillsphere_react.git
- └── skillsphere_py/           # Análisis de Datos (Python + Pandas)
-     └── Repo: https://github.com/luisausuga404/skillsphere_py.git
+## 🏗️ Estructura del Workspace Actual
+
+```
+c:\Users\CESDE BELLO\Music\M3\backend-skillsphere-m3\
+├── skillsphere-api-m3/          # ✅ Backend Java/Spring Boot
+│   ├── src/main/java/
+│   ├── src/main/resources/
+│   │   ├── application.properties       # Config producción (Supabase)
+│   │   └── application-dev.properties   # Config desarrollo (H2)
+│   ├── pom.xml
+│   ├── .env                             # Variables de entorno (NO COMMITEAR)
+│   ├── .gitignore
+│   └── README.md                        # Documentación actualizada
+│
+├── skillsphere_react/           # 📱 Frontend React
+├── skillsphere_py/              # 🐍 Python & Análisis
+├── context.md                   # Este archivo (actualizado)
+└── git_commands.ps1
 ```
 
 ---
 
-## 🚀 Plan de Implementación (Paso a Paso)
+## 🚀 Guía de Ejecución Rápida
 
-### Fase 1: Preparación y Exploración (Al reiniciar el IDE)
-- [ ] **1. Agrupar Repositorios:** El usuario abre la carpeta padre que contiene los 3 repositorios en su IDE.
-- [ ] **2. Análisis de Python:** Revisaremos los scripts de Python de ejercicios anteriores. Identificaremos qué columnas y datos (salarios, fechas, habilidades, limpieza de nulos) usaron para asegurarnos de que el Backend los provea.
-- [ ] **3. Análisis de Frontend:** Revisaremos el código de React para identificar los componentes visuales (tarjetas, tablas) y qué "props" o datos están esperando recibir.
+### Compilar
+```bash
+cd skillsphere-api-m3
+.\mvnw.cmd clean package -DskipTests -q
+```
 
-### Fase 2: Definición del "Contrato de Datos" (Data Contract)
-- [ ] **1. Ajuste de DTOs en Java:** En base a la Fase 1, modificaremos los DTOs en `skillsphere-api-m3` (`JobOfferDTO`, `CertificateDTO`, etc.) para que contengan exactamente los campos requeridos por Python y React.
-- [ ] **2. Actualización de Supabase:** Si hay nuevos campos, actualizaremos las tablas correspondientes en Supabase.
-- [ ] **3. Documentación del JSON Final:** Dejaremos un ejemplo claro del JSON que devolverá cada endpoint para que los otros dos proyectos sepan qué esperar.
+### Ejecutar (Desarrollo con H2)
+```bash
+java -jar target\skillsphere-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+```
 
-### Fase 3: Integración de Consumidores
-- [ ] **1. Integración en React:** Crear servicios (usando `fetch` o `axios`) en el Frontend para consumir los endpoints (ej. `GET /api/job-offers`).
-- [ ] **2. Integración en Python:** Crear un script de ingesta (usando `requests` y `pandas`) que descargue los datos de la API en JSON y los convierta a DataFrames (`df`) listos para el análisis.
+### Probar la API
+```bash
+# En nueva terminal
+curl http://localhost:8080/api/certificates
+curl http://localhost:8080/swagger-ui.html  # En navegador
+```
 
----
-
-## 📚 Materiales de Referencia (Backend)
-El profesor ha proporcionado repositorios de ejemplo y fragmentos de código que dictan la estructura base y tecnologías permitidas para el Backend:
-- **Tecnologías:** Java, Spring Boot, Spring Data JPA, Lombok, PostgreSQL (compatible con Supabase).
-- **Estructura Base:** Arquitectura en capas clásica (Controller -> Service -> Repository -> Entity).
-- **Conexión a BD:** Mediante variables de entorno en `.env` (ej. `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`) inyectadas en `application.properties`.
-- **Repositorios de Ejemplo:**
-  - `https://github.com/jfinforecursos/cesde_backend2_ejemplo_api_basica.git`
-  - `https://github.com/jfinforecursos/cesde_backend2_ejemplo_servicio.git`
-
-*Nota: Estos ejemplos no implementan DTOs ni Embeddings de forma nativa, por lo que nuestra solución deberá extender esta arquitectura base para cumplir con los requisitos obligatorios del Momento 3 (DTOs y Vector Search/Embeddings).*
+**Detalles completos**: Ver [README.md](skillsphere-api-m3/README.md)
 
 ---
 
-> [!NOTE]
-> **Para continuar la conversación después de reiniciar el IDE:**
-> Puedes simplemente adjuntar o mencionar este archivo `context.md` y pedirme: *"Analiza los repositorios de Python y Front que ya están en el espacio de trabajo para empezar con la Fase 1"*.
+## 📋 Entidades Principales y DTOs
 
-### ✅ Logros del Backend Completados (Fase Backend Lista):
-- **Base de Datos Nativa (JPA & Hibernate):** Se eliminó el viejo código manual (`SupabaseClient`) y ahora la app de Java se conecta directamente a la base de datos PostgreSQL usando Spring Data JPA. El backend crea y administra sus propias tablas.
-- **Vectores de IA (`pgvector`):** Se activó la extensión de IA en Supabase mediante un script y se mapeó el campo `float[] embedding` en Java definiéndolo estrictamente con `@Column(columnDefinition = "vector")`.
-- **Contrato de Datos Estricto (DTOs):** El backend ya no expone las tablas reales. Todas las respuestas de la API (`JobOffer`, `Certificate`, `Student`, `Institution`) son transformadas y filtradas a `DTOs`.
-- **Automatización de Datos (Seeds):** Se crearon y documentaron los scripts SQL (`01-job-offers.sql`, `02-certificates.sql`) con datos de prueba exactos que ya fueron inyectados exitosamente en la base de datos de Supabase.
-- **Interfaz Viva de API (Swagger):** Se integró Swagger (`http://localhost:8080/swagger-ui.html`), permitiendo probar todos los métodos CRUD (GET, POST, etc.) directamente desde el navegador, sirviendo como mapa exacto para que el Frontend y Python sepan qué consumir.
-- **Estructura Git Profesional:** El proyecto completo está consolidado en el monorepo `skillsphere-proyecto-integrador-m3` con ramas dedicadas (`skillsphere-be-m3`, `skillsphere-front-m3`, `skillsphere-analisis-py-m3`). Todo el progreso del backend está respaldado con commits formales.
+### Recursos de la API
+
+| Entidad | Endpoint | CRUD | DTO | Auditoría |
+|---------|----------|------|-----|-----------|
+| Certificado | `/api/certificates` | ✅ | CertificateDTO | AuditInfo |
+| Estudiante | `/api/students` | ✅ | StudentDTO | AuditInfo |
+| Institución | `/api/institutions` | ✅ | InstitutionDTO | AuditInfo |
+| Oferta Laboral | `/api/job-offers` | ✅ | JobOfferDTO | AuditInfo |
+
+### Ejemplo de Respuesta (JSON)
+
+```json
+GET /api/certificates/1
+
+{
+  "id": 1,
+  "name": "Certificado en Java",
+  "description": "Certificación Java Avanzado",
+  "issueDate": "2023-01-15",
+  "expiryDate": "2026-01-15",
+  "studentId": 1,
+  "institutionId": 1
+}
+```
+
+---
+
+## 🔐 Configuración de Bases de Datos
+
+### Desarrollo: H2 (En Memoria)
+
+**Archivo**: `src/main/resources/application-dev.properties`
+
+```properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.username=sa
+spring.datasource.password=
+
+# Reinicia BD cada vez que se ejecuta
+spring.jpa.hibernate.ddl-auto=create-drop
+
+# Console: http://localhost:8080/h2-console
+spring.h2.console.enabled=true
+```
+
+**Ventajas**:
+- ✅ No requiere instalación
+- ✅ Rápido para desarrollo local
+- ✅ No contamina datos reales
+
+**Desventajas**:
+- ❌ Datos se pierden al reiniciar
+- ❌ No es persistente entre ejecuciones
+
+### Producción: Supabase (PostgreSQL)
+
+**Archivo**: `src/main/resources/application.properties`
+
+```properties
+spring.datasource.url=${DB_URL:}
+spring.datasource.username=${DB_USERNAME:}
+spring.datasource.password=${DB_PASSWORD:}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Actualiza esquema sin reiniciar BD
+spring.jpa.hibernate.ddl-auto=update
+```
+
+**Variables en `.env`**:
+
+```properties
+DB_URL=jdbc:postgresql://db.supabase.co:5432/postgres?sslmode=require
+DB_USERNAME=postgres
+DB_PASSWORD=tu_contraseña_supabase
+```
+
+**Ventajas**:
+- ✅ Datos persistentes
+- ✅ Accesible desde cualquier IP
+- ✅ Compatible con JPA relacional y `@Embeddable`
+- ✅ Backups automáticos
+
+---
+
+## 🧠 JPA Embeddables: Auditoría Reutilizable
+
+### ¿Qué es?
+
+Un `@Embeddable` en Jakarta Persistence agrupa campos relacionados dentro de una entidad principal sin crear una tabla separada. Se aplica con `@Embedded` en la entidad principal y sus columnas se almacenan en la misma tabla.
+
+### En Nuestro Código
+
+Creamos un embeddable `AuditInfo` con:
+- `createdAt`
+- `updatedAt`
+
+Y lo usamos en:
+- `Student`
+- `JobOffer`
+- `Institution`
+- `Certificate`
+
+### Estado Actual
+- ✅ `AuditInfo` existe como `@Embeddable`
+- ✅ Todas las entidades principales usan `@Embedded AuditInfo`
+- ✅ No hay dependencias de pgvector ni IA de embeddings en el backend
+- ✅ El sistema está alineado con el patrón JPA correcto
+
+---
+
+## 🔄 Flujo de Datos: Crear un Certificado
+
+```
+┌─────────────────────────────────────────────────┐
+│ CLIENT (Postman, React, Python)                 │
+│ POST /api/certificates                          │
+│ Body: {"name": "Java", ...}                     │
+└────────────────────┬────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────┐
+│ CertificateController                           │
+│ @PostMapping + @RequestBody CertificateDTO      │
+└────────────────────┬────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────┐
+│ CertificateService.save(DTO)                    │
+│ - Convierte DTO → Entity                        │
+│ - Valida datos (futuro)                         │
+└────────────────────┬────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────┐
+│ CertificateRepository.save(Entity)              │
+│ (Spring Data JPA)                               │
+└────────────────────┬────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────┐
+│ Hibernate + SQL                                 │
+│ INSERT INTO certificates (...)                  │
+│ VALUES (...)                                    │
+└────────────────────┬────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────┐
+│ Base de Datos (H2 o Supabase)                  │
+│ ✅ Datos almacenados                            │
+└────────────────────┬────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────┐
+│ Service: Entity → DTO                           │
+│ JSON Response                                   │
+└────────────────────┬────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────┐
+│ HTTP 200 OK                                     │
+│ {"id": 1, "name": "Java", ...}                 │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎯 Plan de Integración: Frontend + Backend
+
+### Para React
+
+```javascript
+// Consumir datos de la API
+fetch('http://localhost:8080/api/job-offers')
+  .then(res => res.json())
+  .then(jobs => {
+    // jobs = array de JobOfferDTO
+    setJobOffers(jobs);
+  });
+```
+
+**Props esperadas en componentes**:
+```javascript
+<JobOfferCard
+  id={job.id}
+  title={job.title}
+  company={job.company}
+  salary={job.salary}
+  modality={job.modality}
+  active={job.active}
+/>
+```
+
+### Para Python
+
+```python
+import requests
+import pandas as pd
+
+# Obtener datos de la API
+response = requests.get('http://localhost:8080/api/job-offers')
+jobs = response.json()
+
+# Convertir a DataFrame
+df = pd.DataFrame(jobs)
+
+# Análisis
+print(df.describe())
+print(df[df['salary'].notna()].groupby('company').size())
+```
+
+---
+
+## 🚀 Roadmap: H2 → Supabase
+
+### Hoy (✅ Completado)
+- ✅ API REST funcional
+- ✅ H2 para desarrollo local
+- ✅ DTOs completos
+- ✅ JPA embeddables preparados
+- ✅ Swagger activo
+
+### Próxima Semana (🚀)
+- [ ] Configurar credenciales Supabase
+- [ ] Cambiar perfil a producción
+- [ ] Probar endpoints con PostgreSQL
+- [ ] Migrar datos de H2 → Supabase
+
+### Próximo Mes (🤖)
+- [ ] Integrar autenticación (JWT)
+- [ ] Tests unitarios e integración
+- [ ] Documentar el modelo de auditoría con `AuditInfo`
+
+---
+
+## 🐛 Solución de Problemas Comunes
+
+### El archivo está en uso (Failed to delete JAR)
+```bash
+taskkill /f /im java.exe
+# Luego recompila
+```
+
+### `mvnw` no se reconoce
+```bash
+# ❌ Incorrecto: mvnw
+# ✅ Correcto: .\mvnw.cmd
+.\mvnw.cmd clean package -DskipTests -q
+```
+
+### Puerto 8080 ocupado
+```bash
+taskkill /f /im java.exe
+# O cambia el puerto
+java -jar ... --server.port=8081
+```
+
+### .env no se carga
+- ✅ Archivo existe en: `skillsphere-api-m3\.env`
+- ✅ Sin espacios alrededor de `=`
+- ✅ Reinicia la app después de cambios
+
+---
+
+## 📚 Documentación Completa
+
+- **README.md**: [Guía completa de ejecución](skillsphere-api-m3/README.md)
+- **Swagger UI**: http://localhost:8080/swagger-ui.html (cuando esté corriendo)
+- **API Docs**: http://localhost:8080/v3/api-docs
+
+---
+
+## 👥 Tecnologías Usadas
+
+| Tecnología | Versión | Propósito |
+|-----------|---------|----------|
+| Java | 21 | Lenguaje principal |
+| Spring Boot | 3.5.11 | Framework REST |
+| Spring Data JPA | 3.5.11 | ORM |
+| H2 Database | 2.3.x | BD desarrollo |
+| PostgreSQL | (Supabase) | BD producción |
+| Hibernate | 6.6.x | JPA impl |
+| Lombok | 1.18.x | Less boilerplate |
+| Springdoc OpenAPI | 2.6.0 | Swagger auto |
+| Maven | 3.8+ | Build tool |
+
+---
+
+## ✅ Resumen: Qué Funciona Hoy
+
+- ✅ API REST completa (CRUD)
+- ✅ Compilación y ejecución
+- ✅ Pruebas con curl/Swagger
+- ✅ Documentación actualizada
+- ✅ DTOs en todas las entidades
+- ✅ JPA embeddables preparados
+- ✅ Dos perfiles (dev + prod)
+- ✅ Variables de entorno seguras
+
+---
+
+## 📌 Próximo Paso
+
+Cuando estés listo para usar **Supabase**:
+
+1. Crea cuenta en https://app.supabase.com
+2. Obtén credenciales (DB_URL, DB_USERNAME, DB_PASSWORD)
+3. Actualiza `.env` con esos valores
+4. Ejecuta sin `--spring.profiles.active=dev`
+5. Spring cargará Supabase automáticamente
+
+---
+
+**Última actualización**: Mayo 9, 2026  
+**Mantenedor**: Grupo 10 - SkillSphere  
+**Estado**: 🟢 Funcional (H2) | 🟡 Supabase en standby

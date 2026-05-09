@@ -9,5 +9,4 @@ public class InstitutionDTO {
     private String country;
     private String website;
     private String type;
-    private float[] embedding;
 }

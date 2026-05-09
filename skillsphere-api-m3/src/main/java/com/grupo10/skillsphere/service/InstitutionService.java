@@ -36,9 +36,6 @@ public class InstitutionService {
             existing.setCountry(institutionDetails.getCountry());
             existing.setWebsite(institutionDetails.getWebsite());
             existing.setType(institutionDetails.getType());
-            if (institutionDetails.getEmbedding() != null) {
-                existing.setEmbedding(institutionDetails.getEmbedding());
-            }
             Institution updated = repository.save(existing);
             return convertToDTO(updated);
         }).orElseThrow(() -> new RuntimeException("Institución no encontrada con id: " + id));
@@ -55,7 +52,6 @@ public class InstitutionService {
         dto.setCountry(entity.getCountry());
         dto.setWebsite(entity.getWebsite());
         dto.setType(entity.getType());
-        dto.setEmbedding(entity.getEmbedding());
         return dto;
     }
 
@@ -66,7 +62,6 @@ public class InstitutionService {
         entity.setCountry(dto.getCountry());
         entity.setWebsite(dto.getWebsite());
         entity.setType(dto.getType());
-        entity.setEmbedding(dto.getEmbedding());
         return entity;
     }
 }

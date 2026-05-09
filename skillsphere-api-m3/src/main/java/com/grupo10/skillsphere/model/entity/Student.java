@@ -2,10 +2,7 @@ package com.grupo10.skillsphere.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -23,13 +20,10 @@ public class Student {
     private LocalDate birthDate;
     private String program;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
-    @Column(columnDefinition = "vector")
-    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.VECTOR)
-    private float[] embedding;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "createdAt", column = @Column(name = "created_at", updatable = false)),
+            @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at"))
+    })
+    private AuditInfo auditInfo = new AuditInfo();
 }

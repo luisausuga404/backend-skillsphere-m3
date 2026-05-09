@@ -20,7 +20,5 @@ public class JobOfferDTO {
     private String modality; // Modalidad (e.g., remoto, presencial)
     private Boolean active; // Si la oferta está activa
 
-    private float[] embedding; // Vector semántico para búsquedas con IA
-
     // Nota: No incluye 'createdAt' ni 'updatedAt' para mantener consistencia con otros DTOs
 }
